@@ -14,11 +14,14 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.disable())
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll());
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
-                .httpBasic(Customizer.withDefaults());
+        .authorizeHttpRequests(auth -> auth.requestMatchers("/courses").permitAll())        
+        .httpBasic(Customizer.withDefaults());
         return http.build();
 
     }
