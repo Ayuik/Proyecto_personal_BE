@@ -44,12 +44,12 @@ public class CourseService {
         return courseRepository.save(existingCourse);
     }
 
-    public Course getById(Long id) {
-        return courseRepository.findById(id).orElse(null);
+    public Course getById(Long courseId) {
+        return courseRepository.findById(courseId).orElse(null);
     }
 
-    public void delete(Long id) {
-        courseRepository.deleteById(id);
+    public void delete(Long courseId) {
+        courseRepository.deleteById(courseId);
     }
 
     public List<Course> getAll() {
