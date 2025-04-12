@@ -103,7 +103,7 @@ public class Course {
         this.category = courseNewCategory;
     }
 
-    public void setCouseTitle(String courseNewTitle) {
+    public void setCourseTitle(String courseNewTitle) {
         this.courseTitle = courseNewTitle;
     }
 }

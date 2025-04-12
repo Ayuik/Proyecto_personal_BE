@@ -43,7 +43,7 @@ public class CourseController {
     @PutMapping(path = "/{courseId}")
     public ResponseEntity<Course> update(@PathVariable Long courseId, @RequestBody Course updatedCourse) {
         Course course = courseService.update(courseId, updatedCourse);
-        return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(course);
+        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(course);
     }
 
     @DeleteMapping(path = "/{courseId}")
