@@ -28,8 +28,8 @@ public class CourseController {
         return courseService.getAll();
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Course> show(@PathVariable("id") Long courseId) {
+    @GetMapping(path = "/{courseId}")
+    public ResponseEntity<Course> show(@PathVariable("courseId") Long courseId) {
         Course course = courseService.getById(courseId);
         return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(course);
     }
@@ -40,14 +40,14 @@ public class CourseController {
         return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(course);
     }
 
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<Course> update(@RequestBody Course updatedCourse) {
-        Course course = courseService.update(updatedCourse);
+    @PutMapping(path = "/{courseId}")
+    public ResponseEntity<Course> update(@PathVariable Long courseId, @RequestBody Course updatedCourse) {
+        Course course = courseService.update(courseId, updatedCourse);
         return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(course);
     }
 
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long courseId) {
+    @DeleteMapping(path = "/{courseId}")
+    public ResponseEntity<Void> delete(@PathVariable("courseId") Long courseId) {
         courseService.delete(courseId);
         return ResponseEntity.status(HttpStatusCode.valueOf(204)).build();
     }
