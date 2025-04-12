@@ -1,6 +1,5 @@
 package dev.ayelen.courses;
 
-import dev.ayelen.categories.Category;
 import jakarta.persistence.*;
 
 @Entity
