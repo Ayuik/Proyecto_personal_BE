@@ -2,7 +2,9 @@ package dev.ayelen.categories;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CategoryService {
@@ -16,16 +18,20 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category update(Category category) {
-        return categoryRepository.save(category);
+    public Category update(Long categoryId, Category updatedCategoryData) {
+        Category existingCategory = categoryRepository.findById(categoryId)
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND, "Category not found with id: " + categoryId));
+        existingCategory.setCategoryName(updatedCategoryData.getCategoryName());
+        return categoryRepository.save(existingCategory);
+    }   
+
+    public Category getById(Long categoryId) {        
+        return categoryRepository.findById(categoryId).orElse(null);    
     }
 
-    public Category getById(Long id) {        
-        return categoryRepository.findById(id).orElse(null);    
-    }
-
-    public void delete(Long id) {
-        categoryRepository.deleteById(id);    
+    public void delete(Long categoryId) {
+        categoryRepository.deleteById(categoryId);    
     }   
 
     public List<Category> getAll() {
