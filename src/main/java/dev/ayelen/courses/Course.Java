@@ -6,17 +6,18 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "courses")
 public class Course {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_course", nullable = false)
     private Long courseId;
-    
+
     @Column(name = "course_title", nullable = false)
     private String courseTitle;
-    
+
     @ManyToOne
     @JoinColumn(name = "course_category_id", referencedColumnName = "id_category", nullable = false)
     private Category category;
-    
+
     @Column(name = "course_description", nullable = false)
     private String courseDescription;
 
@@ -32,9 +33,11 @@ public class Course {
     @Column(name = "course_price", nullable = false)
     private Float coursePrice;
 
-    public Course() {}
+    public Course() {
+    }
 
-    public Course(String courseTitle, Category category, String courseDescription, int courseNumVideos, int courseDuration, String courseCover, Float coursePrice) {
+    public Course(String courseTitle, Category category, String courseDescription, int courseNumVideos,
+            int courseDuration, String courseCover, Float coursePrice) {
         this.courseTitle = courseTitle;
         this.category = category;
         this.courseDescription = courseDescription;
@@ -52,9 +55,9 @@ public class Course {
         return courseTitle;
     }
 
-    public Category getCategory() {
+    public Category getCourseCategory() {
         return category;
-    }   
+    }
 
     public String getCourseDescription() {
         return courseDescription;
@@ -64,7 +67,7 @@ public class Course {
         return courseNumVideos;
     }
 
-    public int getCourseDuration() {    
+    public int getCourseDuration() {
         return courseDuration;
     }
 
@@ -74,5 +77,33 @@ public class Course {
 
     public Float getCoursePrice() {
         return coursePrice;
+    }
+
+    public void setCoursePrice(Float courseNewPrice) {
+        this.coursePrice = courseNewPrice;
+    }
+
+    public void setCourseCover(String courseNewCover) {
+        this.courseCover = courseNewCover;
+    }
+
+    public void setCourseDuration(int courseNewDuration) {
+        this.courseDuration = courseNewDuration;
+    }
+
+    public void setCourseNumVideos(int courseNewNumVideos) {
+        this.courseNumVideos = courseNewNumVideos;
+    }
+
+    public void setCourseDescription(String courseNewDescription) {
+        this.courseDescription = courseNewDescription;
+    }
+
+    public void setCourseCategory(Category courseNewCategory) {
+        this.category = courseNewCategory;
+    }
+
+    public void setCouseTitle(String courseNewTitle) {
+        this.courseTitle = courseNewTitle;
     }
 }
