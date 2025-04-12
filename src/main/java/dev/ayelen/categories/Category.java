@@ -1,4 +1,4 @@
-package dev.ayelen.courses;
+package dev.ayelen.categories;
 
 import jakarta.persistence.*;
 
