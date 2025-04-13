@@ -19,6 +19,10 @@ public class VideoService {
         .orElseThrow(() -> new ResponseStatusException(
             HttpStatus.NOT_FOUND, "Video not found with id: " + videoId));
         existingVideo.setVideoTitle(updatedVideoData.getVideoTitle());
+        existingVideo.setVideoCourse(updatedVideoData.getVideoCourse());
+        existingVideo.setVideoDescription(updatedVideoData.getVideoDescription());
+        existingVideo.setVideoDuration(updatedVideoData.getVideoDuration());
+        existingVideo.setVideoUrl(updatedVideoData.getVideoUrl());
         return videoRepository.save(existingVideo);
     }   
 
