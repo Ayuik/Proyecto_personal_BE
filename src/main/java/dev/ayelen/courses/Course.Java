@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import dev.ayelen.categories.Category;
 import dev.ayelen.videos.Video;
 import jakarta.persistence.*;
@@ -39,6 +41,7 @@ public class Course {
     private Float coursePrice;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Video> videos = new ArrayList<>();
 
     public Course() {
@@ -87,6 +90,7 @@ public class Course {
         return coursePrice;
     }
 
+    @JsonManagedReference
     public List<Video> getVideos() {
         return videos;
     }   

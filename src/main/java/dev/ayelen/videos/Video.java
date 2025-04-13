@@ -1,5 +1,7 @@
 package dev.ayelen.videos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import dev.ayelen.courses.Course;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +27,7 @@ public class Video {
 
     @ManyToOne
     @JoinColumn(name = "video_course_id", referencedColumnName = "id_course", nullable = false)
+    @JsonBackReference
     private Course course;
 
     @Column(name = "video_description", nullable = false)
@@ -55,6 +58,7 @@ public class Video {
         return videoUrl;
     }
 
+    @JsonBackReference
     public Course getVideoCourse() {
         return course;
     }
