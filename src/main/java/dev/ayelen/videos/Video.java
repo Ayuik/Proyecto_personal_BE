@@ -55,7 +55,7 @@ public class Video {
         return videoUrl;
     }
 
-    public Course getCourse() {
+    public Course getVideoCourse() {
         return course;
     }
 

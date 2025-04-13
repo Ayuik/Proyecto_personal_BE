@@ -1,6 +1,11 @@
 package dev.ayelen.courses;
 
+import java.util.ArrayList;
+
+import java.util.List;
+
 import dev.ayelen.categories.Category;
+import dev.ayelen.videos.Video;
 import jakarta.persistence.*;
 
 @Entity
@@ -32,6 +37,9 @@ public class Course {
 
     @Column(name = "course_price", nullable = false)
     private Float coursePrice;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Video> videos = new ArrayList<>();
 
     public Course() {
     }
@@ -79,6 +87,10 @@ public class Course {
         return coursePrice;
     }
 
+    public List<Video> getVideos() {
+        return videos;
+    }   
+
     public void setCoursePrice(Float courseNewPrice) {
         this.coursePrice = courseNewPrice;
     }
@@ -106,4 +118,15 @@ public class Course {
     public void setCourseTitle(String courseNewTitle) {
         this.courseTitle = courseNewTitle;
     }
+
+    public void addVideo(Video video) {
+        videos.add(video);
+        video.setVideoCourse(this);
+    }
+    
+    public void removeVideo(Video video) {
+        videos.remove(video);
+        video.setVideoCourse(null);
+    }
+    
 }
