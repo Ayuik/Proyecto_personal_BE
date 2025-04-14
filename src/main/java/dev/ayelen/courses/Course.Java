@@ -103,12 +103,16 @@ public class Course {
         this.courseCover = courseNewCover;
     }
 
-    public void setCourseDuration(int courseNewDuration) {
-        this.courseDuration = courseNewDuration;
+    public void setCourseDuration() {
+        int totalDuration = 0;
+        for (Video video : videos) {
+            totalDuration += video.getVideoDuration();
+        }
+        this.courseDuration = totalDuration;    
     }
 
-    public void setCourseNumVideos(int courseNewNumVideos) {
-        this.courseNumVideos = courseNewNumVideos;
+    public void setCourseNumVideos() {
+        this.courseNumVideos = videos.size();
     }
 
     public void setCourseDescription(String courseNewDescription) {
@@ -126,11 +130,15 @@ public class Course {
     public void addVideo(Video video) {
         videos.add(video);
         video.setVideoCourse(this);
+        setCourseDuration();
+        setCourseNumVideos();
     }
     
     public void removeVideo(Video video) {
         videos.remove(video);
-        video.setVideoCourse(null);
+        video.setVideoCourse(this);
+        setCourseDuration();
+        setCourseNumVideos();
     }
     
 }

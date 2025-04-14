@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import dev.ayelen.categories.Category;
 import dev.ayelen.categories.CategoryRepository;
+import dev.ayelen.videos.Video;
 
 @Service
 public class CourseService {
@@ -36,8 +37,6 @@ public class CourseService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
         existingCourse.setCourseCategory(updatedCategory);
         existingCourse.setCourseDescription(updatedCourseData.getCourseDescription());
-        existingCourse.setCourseNumVideos(updatedCourseData.getCourseNumVideos());
-        existingCourse.setCourseDuration(updatedCourseData.getCourseDuration());
         existingCourse.setCourseCover(updatedCourseData.getCourseCover());
         existingCourse.setCoursePrice(updatedCourseData.getCoursePrice());
 
@@ -56,4 +55,12 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
+    public Video storeVideoInCourse(Long courseId, Video newVideo) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+        course.addVideo(newVideo);
+        courseRepository.save(course);
+        return newVideo;
+    }
+    
 }
