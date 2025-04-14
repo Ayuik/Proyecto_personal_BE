@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.ayelen.videos.Video;
 
 @RestController
-@RequestMapping("/courses")
+@RequestMapping("${api-endpoint}/courses")
 public class CourseController {
 
     CourseService courseService;
