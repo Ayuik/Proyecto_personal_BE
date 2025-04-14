@@ -2,6 +2,7 @@ package dev.ayelen.courses;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,6 +18,7 @@ public class CourseService {
     CategoryRepository categoryRepository;
     VideoRepository videoRepository;
 
+    @Autowired
     public CourseService(CourseRepository courseRepository, CategoryRepository categoryRepository,
             VideoRepository videoRepository) {
         this.courseRepository = courseRepository;
@@ -62,12 +64,15 @@ public class CourseService {
 
     public Video storeVideoInCourse(Long courseId, Video newVideo) {
         Course course = courseRepository.findById(courseId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
-            newVideo.setVideoCourse(course);
-        course.addVideo(newVideo);          
-        courseRepository.save(course);   
-        return newVideo;
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+        newVideo.setVideoCourse(course);
+        course.addVideo(newVideo);
+        Course savedCourse = courseRepository.save(course);
+        List<Video> videos = savedCourse.getVideos();
+        Video savedVideo = videos.get(videos.size() - 1);
+        return savedVideo;
     }
+    
 
     public void deleteVideoFromCourse(Long courseId, Long videoId) {
         Course course = courseRepository.findById(courseId)

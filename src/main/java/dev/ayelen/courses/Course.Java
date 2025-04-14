@@ -52,8 +52,6 @@ public class Course {
         this.courseTitle = courseTitle;
         this.category = category;
         this.courseDescription = courseDescription;
-        this.courseNumVideos = courseNumVideos;
-        this.courseDuration = courseDuration;
         this.courseCover = courseCover;
         this.coursePrice = coursePrice;
     }

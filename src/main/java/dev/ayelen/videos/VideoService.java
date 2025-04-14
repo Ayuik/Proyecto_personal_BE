@@ -14,17 +14,16 @@ public class VideoService {
         this.videoRepository = videoRepository;
     }
 
-    public Video update(Long videoId, Video updatedVideoData) {
+    public Video update(Long videoId, Video updatedData) {
         Video existingVideo = videoRepository.findById(videoId)
-        .orElseThrow(() -> new ResponseStatusException(
-            HttpStatus.NOT_FOUND, "Video not found with id: " + videoId));
-        existingVideo.setVideoTitle(updatedVideoData.getVideoTitle());
-        existingVideo.setVideoCourse(updatedVideoData.getVideoCourse());
-        existingVideo.setVideoDescription(updatedVideoData.getVideoDescription());
-        existingVideo.setVideoDuration(updatedVideoData.getVideoDuration());
-        existingVideo.setVideoUrl(updatedVideoData.getVideoUrl());
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found"));
+        existingVideo.setVideoTitle(updatedData.getVideoTitle());
+        existingVideo.setVideoUrl(updatedData.getVideoUrl());
+        existingVideo.setVideoDescription(updatedData.getVideoDescription());
+        existingVideo.setVideoDuration(updatedData.getVideoDuration());
         return videoRepository.save(existingVideo);
-    }   
+    }
+     
 
     public Video getById(Long videoId) {        
         return videoRepository.findById(videoId).orElse(null);    

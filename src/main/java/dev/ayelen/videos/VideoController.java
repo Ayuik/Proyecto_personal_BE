@@ -32,9 +32,10 @@ public class VideoController {
     }
 
     @PutMapping(path = "/{videoId}")
-    public ResponseEntity<Video> update(@PathVariable Long videoId, @RequestBody Video updatedVideo) {
-        Video video = videoService.update(videoId, updatedVideo);
-        return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(video);
-    }
+public ResponseEntity<Video> update(@PathVariable Long videoId, @RequestBody Video updatedVideo) {
+    Video video = videoService.update(videoId, updatedVideo);
+    return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(video);
+}
+
     
 }
