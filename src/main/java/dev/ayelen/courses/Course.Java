@@ -103,7 +103,7 @@ public class Course {
         this.courseCover = courseNewCover;
     }
 
-    public void setCourseDuration() {
+    public void updateCourseDuration() {
         int totalDuration = 0;
         for (Video video : videos) {
             totalDuration += video.getVideoDuration();
@@ -111,7 +111,7 @@ public class Course {
         this.courseDuration = totalDuration;    
     }
 
-    public void setCourseNumVideos() {
+    public void updateCourseNumVideos() {
         this.courseNumVideos = videos.size();
     }
 
@@ -130,15 +130,15 @@ public class Course {
     public void addVideo(Video video) {
         videos.add(video);
         video.setVideoCourse(this);
-        setCourseDuration();
-        setCourseNumVideos();
+        updateCourseDuration();
+        updateCourseNumVideos();
     }
     
     public void removeVideo(Video video) {
         videos.remove(video);
         video.setVideoCourse(this);
-        setCourseDuration();
-        setCourseNumVideos();
+        updateCourseDuration();
+        updateCourseNumVideos();
     }
     
 }

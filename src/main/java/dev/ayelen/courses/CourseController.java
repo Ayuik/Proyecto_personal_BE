@@ -61,4 +61,10 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(video);
     }
 
+    @DeleteMapping(path = "/{courseId}/video/{videoId}")
+    public ResponseEntity<Void> delete(@PathVariable("courseId") Long courseId, @PathVariable("videoId")Long videoId) {
+        courseService.deleteVideoFromCourse(courseId, videoId);
+        return ResponseEntity.noContent().build();    
+    }
+
 }

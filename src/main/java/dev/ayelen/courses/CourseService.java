@@ -9,15 +9,18 @@ import org.springframework.web.server.ResponseStatusException;
 import dev.ayelen.categories.Category;
 import dev.ayelen.categories.CategoryRepository;
 import dev.ayelen.videos.Video;
+import dev.ayelen.videos.VideoRepository;
 
 @Service
 public class CourseService {
     CourseRepository courseRepository;
     CategoryRepository categoryRepository;
+    VideoRepository videoRepository;
 
-    public CourseService(CourseRepository courseRepository, CategoryRepository categoryRepository) {
+    public CourseService(CourseRepository courseRepository, CategoryRepository categoryRepository, VideoRepository videoRepository) {
         this.courseRepository = courseRepository;
         this.categoryRepository = categoryRepository;
+        this.videoRepository = videoRepository;
     }
 
     public Course store(Course course) {
@@ -62,5 +65,12 @@ public class CourseService {
         courseRepository.save(course);
         return newVideo;
     }
+
+    public void deleteVideoFromCourse(Long courseId, Long videoId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found")); 
+        Video video = videoRepository.findById(videoId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found")); 
+        course.removeVideo(video);
+   }
     
 }
