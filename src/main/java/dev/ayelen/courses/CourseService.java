@@ -17,7 +17,8 @@ public class CourseService {
     CategoryRepository categoryRepository;
     VideoRepository videoRepository;
 
-    public CourseService(CourseRepository courseRepository, CategoryRepository categoryRepository, VideoRepository videoRepository) {
+    public CourseService(CourseRepository courseRepository, CategoryRepository categoryRepository,
+            VideoRepository videoRepository) {
         this.courseRepository = courseRepository;
         this.categoryRepository = categoryRepository;
         this.videoRepository = videoRepository;
@@ -47,7 +48,8 @@ public class CourseService {
     }
 
     public Course getById(Long courseId) {
-        return courseRepository.findById(courseId).orElse(null);
+        return courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
     }
 
     public void delete(Long courseId) {
@@ -60,17 +62,20 @@ public class CourseService {
 
     public Video storeVideoInCourse(Long courseId, Video newVideo) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
-        course.addVideo(newVideo);
-        courseRepository.save(course);
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+            newVideo.setVideoCourse(course);
+        course.addVideo(newVideo);          
+        courseRepository.save(course);   
         return newVideo;
     }
 
     public void deleteVideoFromCourse(Long courseId, Long videoId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found")); 
-        Video video = videoRepository.findById(videoId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found")); 
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found"));
         course.removeVideo(video);
-   }
-    
+        videoRepository.delete(video);
+    }
+
 }
