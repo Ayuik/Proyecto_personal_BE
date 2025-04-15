@@ -47,8 +47,7 @@ public class Course {
     public Course() {
     }
 
-    public Course(String courseTitle, Category category, String courseDescription, int courseNumVideos,
-            int courseDuration, String courseCover, Float coursePrice) {
+    public Course(String courseTitle, Category category, String courseDescription, String courseCover, Float coursePrice) {
         this.courseTitle = courseTitle;
         this.category = category;
         this.courseDescription = courseDescription;
