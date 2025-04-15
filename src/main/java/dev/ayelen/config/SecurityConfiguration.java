@@ -14,26 +14,26 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    @Value("${api-endpoint}")
-    private String apiEndpoint;   
-     
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form.disable())
-                .authorizeHttpRequests(
-                        auth -> auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers(apiEndpoint + "/courses/**").permitAll()
-                                .requestMatchers(apiEndpoint + "/categories/**").permitAll()
-                                .requestMatchers(apiEndpoint + "/videos/**").permitAll()
-                                .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults());
-        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
-        return http.build();
+        @Value("${api-endpoint}")
+        private String apiEndpoint;
 
-    }
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                http
+                                .cors(Customizer.withDefaults())
+                                .csrf(csrf -> csrf.disable())
+                                .formLogin(form -> form.disable())
+                                .authorizeHttpRequests(
+                                                auth -> auth.requestMatchers(
+                                                                AntPathRequestMatcher.antMatcher("/h2-console/**"))
+                                                                .permitAll()
+                                                                .anyRequest().permitAll())
+                                .httpBasic(Customizer.withDefaults());
+                http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+                return http.build();
+
+        }
 
 }
