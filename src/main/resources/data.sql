@@ -43,3 +43,17 @@ VALUES ('Plugins y Herramientas', 'https://youtu.be/BVhaxu3Qvzw?list=PLSZ3iv41NA
 
 INSERT INTO videos (video_title, video_url, video_course_id, video_description, video_duration)
 VALUES ('Masterizacion Profesional', 'https://youtu.be/BVhaxu3Qvzw?list=PLSZ3iv41NAgOgTcxcHmSSxRd2WLbcw5M7', 3, 'Consejos para masterizacion profesional.', 40);
+
+-- Inserción de roles
+INSERT INTO roles (role_name) VALUES ('ADMIN');
+INSERT INTO roles (role_name) VALUES ('USER');
+
+-- Inserción de usuarios
+-- Asumimos que, tras insertar, el rol 'ADMIN' tendrá role_id = 1
+-- y el rol 'USER' tendrá role_id = 2.
+
+INSERT INTO users (username, password, user_role_id) 
+VALUES ('admin', 'admin123', 1);
+
+INSERT INTO users (username, password, user_role_id) 
+VALUES ('jane.doe', 'password', 2);
