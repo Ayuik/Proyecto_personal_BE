@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -25,6 +26,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 import dev.ayelen.security.JpaUserDetailsService;
+import dev.ayelen.security.JwtAuthenticationFilter;
+import dev.ayelen.security.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -36,11 +39,13 @@ public class SecurityConfiguration {
         @Value("${jwt.key}")
     private String key;
 
-        private JpaUserDetailsService jpaUserDetailsService;
-
-        public SecurityConfiguration(JpaUserDetailsService jpaUserDetailsService) {
-                this.jpaUserDetailsService = jpaUserDetailsService;
-        }
+        private final JpaUserDetailsService jpaUserDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
+    
+    public SecurityConfiguration(JpaUserDetailsService jpaUserDetailsService, JwtTokenProvider jwtTokenProvider) {
+        this.jpaUserDetailsService = jpaUserDetailsService;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -53,18 +58,18 @@ public class SecurityConfiguration {
                                                                 AntPathRequestMatcher.antMatcher("/h2-console/**"))
                                                                 .permitAll()
                                                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                                                                .requestMatchers(HttpMethod.GET, apiEndpoint + "/**")
-                                                                .hasAnyRole("USER", "ADMIN")
+                                                                .requestMatchers(HttpMethod.GET, apiEndpoint + "/**").hasAnyRole("USER", "ADMIN")
                                                                 .anyRequest().authenticated())
                                 .userDetailsService(jpaUserDetailsService)
                 
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                                .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.decoder(jwtDecoder())))
                                                 .httpBasic(Customizer.withDefaults());
 
                                                 http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
-                return http.build();
+                                                http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jpaUserDetailsService),
+            UsernamePasswordAuthenticationFilter.class);
+                                                return http.build();
 
         }
 
@@ -88,9 +93,6 @@ public class SecurityConfiguration {
         byte[] bytes = key.getBytes();
         SecretKeySpec secretKey = new SecretKeySpec(bytes, 0, bytes.length, "RSA");
         return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS512).build();
-    }
-    
-    
-    
+    }   
 
 }
