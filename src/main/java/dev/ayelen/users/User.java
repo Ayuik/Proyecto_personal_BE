@@ -25,8 +25,8 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne(targetEntity = Role.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_role_id", referencedColumnName = "id_role", nullable = false)
+    @ManyToOne(targetEntity = Role.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_role_id", nullable = false)
     private Role role;
 
     public User() {
