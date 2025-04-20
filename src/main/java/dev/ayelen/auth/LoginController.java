@@ -8,12 +8,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 // Importa el JwtTokenProvider
 import dev.ayelen.security.JwtTokenProvider;
 
 @RestController
+@RequestMapping("${api-endpoint}")
 public class LoginController {
 
     private final AuthenticationManager authenticationManager;
@@ -24,7 +26,7 @@ public class LoginController {
         this.tokenProvider = tokenProvider;
     }
     
-    @PostMapping("/auth/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
