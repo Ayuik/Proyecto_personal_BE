@@ -55,10 +55,9 @@ public class SecurityConfiguration {
                                 .formLogin(form -> form.disable())
                                 .authorizeHttpRequests(
                                                 auth -> auth.requestMatchers(
-                                                                AntPathRequestMatcher.antMatcher("/h2-console/**"))
-                                                                .permitAll()
+                                                                AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                                                                .requestMatchers(HttpMethod.GET, apiEndpoint + "/**").permitAll()
                                                                 .requestMatchers(HttpMethod.POST, apiEndpoint + "/login").permitAll()
-                                                                .requestMatchers(HttpMethod.GET, apiEndpoint + "/**").hasAnyRole("USER", "ADMIN")
                                                                 .anyRequest().authenticated())
                                 .userDetailsService(jpaUserDetailsService)
                 
