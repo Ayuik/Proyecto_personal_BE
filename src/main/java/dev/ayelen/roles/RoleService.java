@@ -4,7 +4,7 @@ import javax.management.relation.RoleNotFoundException;
 
 import org.springframework.stereotype.Service;
 
-   @Service
+@Service
 public class RoleService {
 
     private final RoleRepository repository;
