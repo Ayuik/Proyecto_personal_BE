@@ -60,6 +60,13 @@ public class SecurityConfiguration {
                                                                 AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                                                                 .requestMatchers(HttpMethod.GET, apiEndpoint + "/**").permitAll()
                                                                 .requestMatchers(HttpMethod.POST, apiEndpoint + "/login").permitAll()
+                                                                .requestMatchers(HttpMethod.PUT, apiEndpoint + "/categories/**").hasRole("ADMIN")
+                                                                .requestMatchers(HttpMethod.POST, apiEndpoint + "/categories").hasRole("ADMIN")
+                                                                .requestMatchers(HttpMethod.DELETE, apiEndpoint + "/categories").hasRole("ADMIN")
+                                                                .requestMatchers(HttpMethod.PUT, apiEndpoint + "/courses/**").hasRole("ADMIN")
+                                                                .requestMatchers(HttpMethod.POST, apiEndpoint + "/courses").hasRole("ADMIN")
+                                                                .requestMatchers(HttpMethod.DELETE, apiEndpoint + "/courses/**").hasRole("ADMIN")
+                                                                .requestMatchers(HttpMethod.PUT, apiEndpoint + "/videos/**").hasRole("ADMIN")
                                                                 .anyRequest().authenticated())
                                 .userDetailsService(jpaUserDetailsService)
                 
