@@ -6,12 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import dev.ayelen.courses.Course;
+import dev.ayelen.courses.CourseService;
+
 @Service
 public class VideoService {
     VideoRepository videoRepository;
-
-    public VideoService(VideoRepository videoRepository) {  
+    CourseService courseService;
+    public VideoService(VideoRepository videoRepository, CourseService courseService) {  
         this.videoRepository = videoRepository;
+        this.courseService = courseService;
     }
 
     public Video update(Long videoId, Video updatedData) {
@@ -21,6 +25,9 @@ public class VideoService {
         existingVideo.setVideoUrl(updatedData.getVideoUrl());
         existingVideo.setVideoDescription(updatedData.getVideoDescription());
         existingVideo.setVideoDuration(updatedData.getVideoDuration());
+        Course course = existingVideo.getVideoCourse();
+        course.updateCourseDuration();
+        courseService.update(course.getCourseId(), course);
         return videoRepository.save(existingVideo);
     }
      
