@@ -17,6 +17,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import dev.ayelen.courses.Course;
+import dev.ayelen.courses.CourseService;
+
 @ExtendWith(MockitoExtension.class)
 public class VideoServiceTest {
     @InjectMocks
@@ -24,6 +27,9 @@ public class VideoServiceTest {
 
     @Mock
     VideoRepository repository;
+
+    @Mock
+    CourseService courseService;
 
     @Test
     void testGetAll() {
@@ -51,9 +57,15 @@ public class VideoServiceTest {
         Video persistentVideo = new Video();
         ReflectionTestUtils.setField(persistentVideo, "videoId", 1L);
         persistentVideo.setVideoTitle("persistent title");
+        persistentVideo.setVideoDuration(10);
+        
+        Course course = new Course();
+        course.addVideo(persistentVideo);
+        ReflectionTestUtils.setField(course, "courseId", 1L);
 
         Video newVideoData = new Video();
         newVideoData.setVideoTitle("incoming title");
+        newVideoData.setVideoDuration(5);
 
         when(repository.findById(1L)).thenReturn(Optional.of(persistentVideo));
         when(repository.save(Mockito.any(Video.class))).thenAnswer(invocation -> {
@@ -62,10 +74,14 @@ public class VideoServiceTest {
             return v;
         });
 
+        course.updateCourseDuration();
+        when(courseService.update(1L, course)).thenReturn(course);
+
         Long videoId = persistentVideo.getVideoId();
         persistentVideo = service.update(videoId, newVideoData);
 
         assertThat(persistentVideo.getVideoTitle(), is("incoming title"));
+        assertThat(course.getCourseDuration(), is(persistentVideo.getVideoDuration()));
     }
 
 }
