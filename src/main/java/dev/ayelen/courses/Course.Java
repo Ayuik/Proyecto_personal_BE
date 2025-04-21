@@ -133,7 +133,6 @@ public class Course {
     
     public void removeVideo(Video video) {
         videos.remove(video);
-        video.setVideoCourse(this);
         updateCourseDuration();
         updateCourseNumVideos();
     }
