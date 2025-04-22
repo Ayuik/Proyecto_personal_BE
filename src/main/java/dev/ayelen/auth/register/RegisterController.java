@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.ayelen.auth.AuthRequest;
 import dev.ayelen.auth.register.RegisterExceptions.RegisterException;
 import dev.ayelen.auth.register.RegisterExceptions.UserAlreadyExistsException;
 
@@ -21,7 +22,7 @@ public class RegisterController {
     }
     
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> registerUser(@RequestBody AuthRequest request) {
         try {
             return new ResponseEntity<>(registerService.registerUser(request), HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {

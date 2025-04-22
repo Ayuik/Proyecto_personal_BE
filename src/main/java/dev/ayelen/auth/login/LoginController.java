@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.ayelen.auth.AuthRequest;
 import dev.ayelen.security.JwtTokenProvider;
 
 @RestController
@@ -26,7 +27,7 @@ public class LoginController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
