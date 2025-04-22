@@ -24,7 +24,7 @@ public class RoleService {
     }
 
     public Role getDefaultRole() {
-        return this.findByRoleName("USER");
+        return this.findByRoleName("ROLE_USER");
     }
 
 }

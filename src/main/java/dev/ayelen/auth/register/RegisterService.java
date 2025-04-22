@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import dev.ayelen.auth.AuthRequest;
 import dev.ayelen.auth.register.RegisterExceptions.RegisterException;
@@ -16,6 +17,7 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 import jakarta.transaction.Transactional;
 
+@Service
 public class RegisterService {
     
     private final UserRepository userRepository;
