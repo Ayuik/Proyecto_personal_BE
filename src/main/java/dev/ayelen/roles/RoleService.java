@@ -18,4 +18,13 @@ public class RoleService {
         return role;
     }
 
+    private Role findByRoleName(String roleName) {
+        return repository.findByRoleName(roleName)
+                .orElseThrow(() -> new IllegalArgumentException("Role not found with name: " + roleName));
+    }
+
+    public Role getDefaultRole() {
+        return this.findByRoleName("USER");
+    }
+
 }
