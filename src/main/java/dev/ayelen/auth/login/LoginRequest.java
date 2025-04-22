@@ -1,4 +1,4 @@
-package dev.ayelen.auth;
+package dev.ayelen.auth.login;
 
 public class LoginRequest {
     private String username;

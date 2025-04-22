@@ -1,4 +1,4 @@
-package dev.ayelen.auth;
+package dev.ayelen.auth.login;
 
 public class LoginResponse {
     private String token;
