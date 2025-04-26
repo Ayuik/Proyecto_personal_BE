@@ -7,25 +7,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.ayelen.auth.AuthRequest;
-import dev.ayelen.auth.register.RegisterExceptions.RegisterException;
 import dev.ayelen.auth.register.RegisterExceptions.UserAlreadyExistsException;
 import dev.ayelen.roles.Role;
 import dev.ayelen.roles.RoleService;
 import dev.ayelen.users.User;
 import dev.ayelen.users.UserRepository;
-import java.util.Base64;
-import java.util.Base64.Decoder;
 import jakarta.transaction.Transactional;
 
 @Service
 public class RegisterService {
-    
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
 
     public RegisterService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                           RoleService roleService) {
+            RoleService roleService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
@@ -38,24 +35,24 @@ public class RegisterService {
             throw new UserAlreadyExistsException("El usuario ya está registrado");
         }
 
-                String decodedPassword;
-        try {
-            Decoder decoder = Base64.getDecoder();
-            byte[] decodedBytes = decoder.decode(request.getPassword());
-            decodedPassword = new String(decodedBytes);
-        } catch (Exception e) {
-            throw new RegisterException("Error decoding password from Base64", e);
+        String password = request.getPassword();
+
+        String passwordEncoded = passwordEncoder.encode(password);
+
+        Role assignedRole = new Role();
+
+        if ("user".equals(request.getRole())) {
+            assignedRole = roleService.getUserRole();
+        } else if ("admin".equals(request.getRole())) {
+            assignedRole = roleService.getAdminRole();
+        } else {
+            throw new IllegalArgumentException("Rol desconocido: " + request.getRole());
         }
-
-        String passwordEncoded = passwordEncoder.encode(decodedPassword);
-
-        Role defaultRole = roleService.getDefaultRole();
-
+        
         User newUser = new User(
                 request.getUsername(),
                 passwordEncoded,
-                defaultRole
-        );
+                assignedRole);
 
         userRepository.save(newUser);
 

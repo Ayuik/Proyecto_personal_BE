@@ -23,8 +23,12 @@ public class RoleService {
                 .orElseThrow(() -> new IllegalArgumentException("Role not found with name: " + roleName));
     }
 
-    public Role getDefaultRole() {
+    public Role getUserRole() {
         return this.findByRoleName("ROLE_USER");
+    }
+
+    public Role getAdminRole() {
+        return this.findByRoleName("ROLE_ADMIN");
     }
 
 }

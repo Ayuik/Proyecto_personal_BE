@@ -60,6 +60,7 @@ public class SecurityConfiguration {
                                                                 AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                                                                 .requestMatchers(HttpMethod.GET, apiEndpoint + "/**").permitAll()
                                                                 .requestMatchers(HttpMethod.POST, apiEndpoint + "/login").permitAll()
+                                                                .requestMatchers(HttpMethod.POST, apiEndpoint + "/register").permitAll()
                                                                 .requestMatchers(HttpMethod.PUT, apiEndpoint + "/categories/**").hasRole("ADMIN")
                                                                 .requestMatchers(HttpMethod.POST, apiEndpoint + "/categories").hasRole("ADMIN")
                                                                 .requestMatchers(HttpMethod.DELETE, apiEndpoint + "/categories").hasRole("ADMIN")
@@ -86,12 +87,12 @@ public class SecurityConfiguration {
                 return new BCryptPasswordEncoder();
         }
 
-        @Bean
+@Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-     @Bean
+    @Bean
     JwtEncoder jwtEncoder() {
         return new NimbusJwtEncoder(new ImmutableSecret<>(key.getBytes()));
     }
