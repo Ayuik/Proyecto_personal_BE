@@ -35,10 +35,6 @@ public class LoginController {
             logger.error("Error de autenticación: {}", ex.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new LoginResponse("Credenciales inválidas", null, null));
-        } catch (IllegalArgumentException ex) {
-            logger.error("Password no es Base64 válido: {}", ex.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(new LoginResponse("Formato de password inválido", null, null));
         }
     }
 }
