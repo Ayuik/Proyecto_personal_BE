@@ -48,6 +48,31 @@ public class SecurityUserTest {
         GrantedAuthority authority = authorities.iterator().next();
         SimpleGrantedAuthority expectedAuthority = new SimpleGrantedAuthority("ROLE_USER");
         assertEquals(expectedAuthority.getAuthority(), authority.getAuthority(), 
-                "La autoridad debe coincidir con ROLE_USER");    }
+                "La autoridad debe coincidir con ROLE_USER");    
+    }
+
+    @Test
+    void testIsAccountNonExpired(){
+        boolean response = securityUser.isAccountNonExpired();
+        assertTrue(response);
+    }
+
+    @Test
+    void testIsAccountNonLocked(){
+        boolean response = securityUser.isAccountNonLocked();
+        assertTrue(response);
+    }
+
+    @Test
+    void testIsCredentialsNonExpired(){
+        boolean response = securityUser.isCredentialsNonExpired();
+        assertTrue(response);
+    }
+
+    @Test
+    void testIsEnabled(){
+        boolean response = securityUser.isEnabled();
+        assertTrue(response);
+    }
     
 }
