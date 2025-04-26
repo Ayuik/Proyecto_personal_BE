@@ -3,6 +3,7 @@ package dev.ayelen.roles;
 import static org.mockito.Mockito.when;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 
@@ -38,5 +39,30 @@ public class RoleServiceTest {
         Role returned = service.getById(2L);
         assertThat(returned, is(role));
     }
+
+    @Test
+    void testFindByRoleName(){
+        Role role = new Role ("ROLE_ADMIN");
+        when(rolerepository.findByRoleName(role.getRoleName())).thenReturn(Optional.of(role));
+        Role returned = service.findByRoleName("ROLE_ADMIN");
+        assertThat(returned, is(role));
+        
+    }
     
+    @Test
+    void testGetUserRole(){
+        Role role = new Role ("ROLE_USER");
+        when(rolerepository.findByRoleName(role.getRoleName())).thenReturn(Optional.of(role));
+        Role returned = service.getUserRole();
+        assertEquals(role, returned);    
+    }
+
+    @Test
+    void testGetAdminRol(){
+        Role role = new Role ("ROLE_ADMIN");
+        when(rolerepository.findByRoleName(role.getRoleName())).thenReturn(Optional.of(role));
+        Role returned = service.getAdminRole();
+        assertThat(returned, is(role));
+        
+    }
 }
