@@ -1,7 +1,6 @@
 package dev.ayelen.security;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.contains;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
