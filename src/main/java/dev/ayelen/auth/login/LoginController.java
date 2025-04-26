@@ -1,10 +1,8 @@
 package dev.ayelen.auth.login;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,33 +10,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.ayelen.auth.AuthRequest;
-import dev.ayelen.security.JwtTokenProvider;
+
+import org.slf4j.Logger;
 
 @RestController
 @RequestMapping("${api-endpoint}")
 public class LoginController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider tokenProvider;
+     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
+    private final LoginService loginService;
     
-    public LoginController(AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider) {
-        this.authenticationManager = authenticationManager;
-        this.tokenProvider = tokenProvider;
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
     }
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest loginRequest) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
-            String token = tokenProvider.generateToken(authentication);
-            return ResponseEntity.ok(new LoginResponse(token));
+            LoginResponse response = loginService.authenticate(loginRequest);
+            return ResponseEntity.ok(response);
+            
         } catch (AuthenticationException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+            logger.error("Error de autenticación: {}", ex.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new LoginResponse("Credenciales inválidas", null, null));
+        } catch (IllegalArgumentException ex) {
+            logger.error("Password no es Base64 válido: {}", ex.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(new LoginResponse("Formato de password inválido", null, null));
         }
     }
 }
