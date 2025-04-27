@@ -87,10 +87,13 @@ public class CategoryServiceTest {
     void delete() {
         Category category = new Category();
         ReflectionTestUtils.setField(category, "categoryId", 2L);
-        List<Category> categories = new ArrayList<>();
-        categories.add(category);
-        doNothing().when(repository).deleteById(2L);
+
+        when(repository.findById(2L)).thenReturn(Optional.of(category));
+
         service.delete(2L);
+
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+
         List<Category> list = service.getAll();
         assertThat(list.size(), is(0));
 

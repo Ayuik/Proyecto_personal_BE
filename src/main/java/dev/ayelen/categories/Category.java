@@ -27,8 +27,8 @@ public class Category {
         return categoryName;    
     }
 
-    public void setCategoryName(String categoryNewName) {
-        this.categoryName = categoryNewName;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
     
 }

@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CategoryService {
-    CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
@@ -26,14 +26,19 @@ public class CategoryService {
         return categoryRepository.save(existingCategory);
     }   
 
-    public Category getById(Long categoryId) {        
-        return categoryRepository.findById(categoryId).orElse(null);    
-    }
+    public Category getById(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Category not found with id: " + categoryId));
+    }  
 
     public void delete(Long categoryId) {
-        categoryRepository.deleteById(categoryId);    
-    }   
-
+        Category existingCategory = categoryRepository.findById(categoryId)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Category not found with id: " + categoryId));
+        categoryRepository.delete(existingCategory);
+    }
+      
     public List<Category> getAll() {
         return categoryRepository.findAll();    
     }
