@@ -18,7 +18,7 @@ public class MailController {
     }
 
     @PostMapping
-    public ResponseEntity<String> sendContactEmail(@RequestBody MailRequest request) {
+    public ResponseEntity<String> sendMail(@RequestBody MailRequest request) {
         try {
             mailService.sendEmail(request);
             return ResponseEntity.ok("Email sent successfully!");
