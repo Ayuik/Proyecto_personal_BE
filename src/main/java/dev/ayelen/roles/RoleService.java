@@ -1,8 +1,8 @@
 package dev.ayelen.roles;
 
-import javax.management.relation.RoleNotFoundException;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class RoleService {
@@ -13,14 +13,16 @@ public class RoleService {
         this.repository = repository;
     }
 
-    public Role getById(Long id) throws RoleNotFoundException {
-        Role role = repository.findById(id).orElseThrow( () -> new RoleNotFoundException("Role not found"));
-        return role;
+    public Role getById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Role not found with id: " + id));
     }
 
     public Role findByRoleName(String roleName) {
         return repository.findByRoleName(roleName)
-                .orElseThrow(() -> new IllegalArgumentException("Role not found with name: " + roleName));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Role not found with name: " + roleName));
     }
 
     public Role getUserRole() {
