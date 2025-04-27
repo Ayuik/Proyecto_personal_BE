@@ -124,10 +124,12 @@ public class CourseServiceTest {
     void delete() {
         Course course = new Course();
         ReflectionTestUtils.setField(course, "courseId", 2L);
-        List<Course> courses = new ArrayList<>();
-        courses.add(course);
-        doNothing().when(repository).deleteById(2L);
+        when(repository.findById(2L)).thenReturn(Optional.of(course));
+
         service.delete(2L);
+
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+
         List<Course> list = service.getAll();
         assertThat(list.size(), is(0));
 

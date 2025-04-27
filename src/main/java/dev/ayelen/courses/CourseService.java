@@ -56,9 +56,12 @@ public class CourseService {
     }
 
     public void delete(Long courseId) {
-        courseRepository.deleteById(courseId);
+        Course course = courseRepository.findById(courseId)
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Course not found with id: " + courseId));
+        courseRepository.delete(course);
     }
-
+    
     public List<Course> getAll() {
         return courseRepository.findAll();
     }
