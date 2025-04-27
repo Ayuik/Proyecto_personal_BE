@@ -71,24 +71,24 @@ public class Video {
         return videoDuration;
     }
 
-    public void setVideoTitle(String videoNewTitle) {
-        this.videoTitle = videoNewTitle;
+    public void setVideoTitle(String videoTitle) {
+        this.videoTitle = videoTitle;
     }
 
-    public void setVideoUrl(String videoNewUrl) {    
-        this.videoUrl = videoNewUrl;
+    public void setVideoUrl(String videoUrl) {    
+        this.videoUrl = videoUrl;
     }
 
-    public void setVideoDescription(String videoNewDescription) {
-        this.videoDescription = videoNewDescription;
+    public void setVideoDescription(String videoDescription) {
+        this.videoDescription = videoDescription;
     }   
 
-    public void setVideoDuration(int videoNewDuration) {
-        this.videoDuration = videoNewDuration;
+    public void setVideoDuration(int videoDuration) {
+        this.videoDuration = videoDuration;
     }
 
-    public void setVideoCourse(Course videoNewCourse) {
-        this.course = videoNewCourse;
+    public void setVideoCourse(Course videoCourse) {
+        this.course = videoCourse;
     }       
 
 }

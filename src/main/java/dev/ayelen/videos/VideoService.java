@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import dev.ayelen.courses.Course;
 import dev.ayelen.courses.CourseService;
+import jakarta.transaction.Transactional;
 
 @Service
 public class VideoService {
@@ -18,18 +19,22 @@ public class VideoService {
         this.courseService = courseService;
     }
 
-    public Video update(Long videoId, Video updatedData) {
-        Video existingVideo = videoRepository.findById(videoId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found"));
-        existingVideo.setVideoTitle(updatedData.getVideoTitle());
-        existingVideo.setVideoUrl(updatedData.getVideoUrl());
-        existingVideo.setVideoDescription(updatedData.getVideoDescription());
-        existingVideo.setVideoDuration(updatedData.getVideoDuration());
-        Course course = existingVideo.getVideoCourse();
-        course.updateCourseDuration();
-        courseService.update(course.getCourseId(), course);
-        return videoRepository.save(existingVideo);
-    }
+    @Transactional
+public Video update(Long videoId, Video updatedData) {
+    Video existingVideo = videoRepository.findById(videoId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found"));
+    
+    existingVideo.setVideoTitle(updatedData.getVideoTitle());
+    existingVideo.setVideoUrl(updatedData.getVideoUrl());
+    existingVideo.setVideoDescription(updatedData.getVideoDescription());
+    existingVideo.setVideoDuration(updatedData.getVideoDuration());
+    
+    Course course = existingVideo.getVideoCourse();
+    course.updateCourseDuration();
+    
+    return videoRepository.save(existingVideo);
+}
+
      
     public Video getById(Long videoId) {        
         return videoRepository.findById(videoId).orElse(null);    
