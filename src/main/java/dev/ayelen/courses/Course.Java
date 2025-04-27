@@ -92,12 +92,12 @@ public class Course {
         return videos;
     }   
 
-    public void setCoursePrice(Float courseNewPrice) {
-        this.coursePrice = courseNewPrice;
+    public void setCoursePrice(Float coursePrice) {
+        this.coursePrice = coursePrice;
     }
 
-    public void setCourseCover(String courseNewCover) {
-        this.courseCover = courseNewCover;
+    public void setCourseCover(String courseCover) {
+        this.courseCover = courseCover;
     }
 
     public void updateCourseDuration() {
@@ -112,16 +112,16 @@ public class Course {
         this.courseNumVideos = videos.size();
     }
 
-    public void setCourseDescription(String courseNewDescription) {
-        this.courseDescription = courseNewDescription;
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
     }
 
-    public void setCourseCategory(Category courseNewCategory) {
-        this.category = courseNewCategory;
+    public void setCourseCategory(Category courseCategory) {
+        this.category = courseCategory;
     }
 
-    public void setCourseTitle(String courseNewTitle) {
-        this.courseTitle = courseNewTitle;
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
     }
 
     public void addVideo(Video video) {

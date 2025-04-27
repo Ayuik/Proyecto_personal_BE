@@ -43,7 +43,7 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(course);
     }
 
-    @PutMapping(path = "/{courseId}", consumes = {"application/json", "application/json;charset=UTF-8"})
+    @PutMapping(path = "/{courseId}")
     public ResponseEntity<Course> update(@PathVariable Long courseId, @RequestBody Course updatedCourse) {
         Course course = courseService.update(courseId, updatedCourse);
         return ResponseEntity.ok(course);    

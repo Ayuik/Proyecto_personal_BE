@@ -11,6 +11,7 @@ import dev.ayelen.categories.Category;
 import dev.ayelen.categories.CategoryRepository;
 import dev.ayelen.videos.Video;
 import dev.ayelen.videos.VideoRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class CourseService {
@@ -62,25 +63,22 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
+    @Transactional
     public Video storeVideoInCourse(Long courseId, Video newVideo) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
-        newVideo.setVideoCourse(course);
         course.addVideo(newVideo);
-        Course savedCourse = courseRepository.save(course);
-        List<Video> videos = savedCourse.getVideos();
-        Video savedVideo = videos.get(videos.size() - 1);
-        return savedVideo;
+        courseRepository.save(course);
+        return newVideo;
     }
-    
 
+    @Transactional
     public void deleteVideoFromCourse(Long courseId, Long videoId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
         Video video = videoRepository.findById(videoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video not found"));
         course.removeVideo(video);
-        videoRepository.delete(video);
+        courseRepository.save(course);
     }
-
 }
