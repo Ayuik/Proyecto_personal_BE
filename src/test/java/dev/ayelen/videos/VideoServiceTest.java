@@ -75,7 +75,6 @@ public class VideoServiceTest {
         });
 
         course.updateCourseDuration();
-        when(courseService.update(1L, course)).thenReturn(course);
 
         Long videoId = persistentVideo.getVideoId();
         persistentVideo = service.update(videoId, newVideoData);
