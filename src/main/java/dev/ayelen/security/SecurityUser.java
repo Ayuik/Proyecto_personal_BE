@@ -3,6 +3,8 @@ package dev.ayelen.security;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,8 @@ import dev.ayelen.roles.Role;
 import dev.ayelen.users.User;
 
 public class SecurityUser implements UserDetails {
+
+    private static final Logger logger = LoggerFactory.getLogger(SecurityUser.class);
 
     private User user;
 
@@ -34,7 +38,7 @@ public class SecurityUser implements UserDetails {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
         Role role = user.getRole();
-        System.out.println("User role : " + role.getRoleName());
+        logger.info("User role: {}", role.getRoleName());
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
         authorities.add(authority);
 

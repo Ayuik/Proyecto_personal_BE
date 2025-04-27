@@ -22,12 +22,11 @@ import org.slf4j.Logger;
 @Profile("!test")
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-        private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
+    private final JwtTokenProvider tokenProvider;
 
-    private JwtTokenProvider tokenProvider;
-    
-    private JpaUserDetailsService userDetailsService;
+    private final JpaUserDetailsService userDetailsService;
 
     public JwtAuthenticationFilter(JwtTokenProvider tokenProvider, JpaUserDetailsService userDetailsService) {
         this.tokenProvider = tokenProvider;
@@ -56,4 +55,3 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-

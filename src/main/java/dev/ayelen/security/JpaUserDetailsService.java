@@ -10,7 +10,7 @@ import dev.ayelen.users.UserRepository;
 @Service
 public class JpaUserDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public JpaUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
